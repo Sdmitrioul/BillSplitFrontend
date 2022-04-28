@@ -1,9 +1,10 @@
 import {IOwer} from "../../components/owe-table/owe-table-interfaces";
 
 export interface User {
-    name: string | null
-    depthTotal: number | null
-    oweTotal: number | null
+    email: string
+    name: string
+    depthTotal: number
+    oweTotal: number
     owers: IOwer[]
     myOwers: IOwer[]
 }

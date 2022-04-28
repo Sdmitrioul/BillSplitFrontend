@@ -17,7 +17,8 @@ export const loginUser = createAsyncThunk(
     try {
       return await new Promise<User>((resolve) => {
         setTimeout(() => resolve({
-          name: "Dmitri Skroba",
+          email: credentials.email,
+          name: credentials.email.split("@")[0],
           depthTotal: 5000,
           oweTotal: 2300,
           owers: [],

@@ -1,5 +1,5 @@
 import React, {FC} from "react"
-import {Header} from "../header"
+import {Header} from "../header/header"
 import {MainPart} from "../../components/MainPart"
 import {OweBar} from "../../components/owe-bar/owe-bar"
 import {OweTable} from "../../components/owe-table/owe-table"
