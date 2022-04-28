@@ -1,18 +1,21 @@
-import React, {FC, useState} from "react"
+import React, {ChangeEvent, FC, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import {loginUser} from "./user-store"
+import {useDispatch} from "react-redux"
+import {AppDispatch} from "../../app/store"
 
 export const Login: FC = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   
-  const onChangeAddress = (e: any) => setEmail(e.target.value)
-  const onChangePassword = (e: any) => setPassword(e.target.value)
+  const onChangeAddress = (e:ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
+  const onChangePassword = (e:ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   const apply = () => {
-    loginUser({email: email, password: password})
+    dispatch(loginUser({email: email, password: password}))
     navigate("/user")
   }
 
@@ -39,7 +42,7 @@ export const Login: FC = () => {
             placeholder="Password"
             type="password"
             value={password}
-            id="email"
+            id="password"
             className="rounded-md mt-2 w-full h-10 px-2 bg-blue-medium"
             onChange={onChangePassword}
           />

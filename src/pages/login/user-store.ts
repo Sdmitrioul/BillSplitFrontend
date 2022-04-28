@@ -1,6 +1,6 @@
 import {BaseStore} from "../../app/base-store"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {Credentials, User} from "./user.interfaces"
+import {Credentials, RegistrationForm, User} from "./user.interfaces"
 
 export interface UserStore extends BaseStore {
     user?: User
@@ -23,10 +23,30 @@ export const loginUser = createAsyncThunk(
           oweTotal: 2300,
           owers: [],
           myOwers: [],
-        }))
+        }), 500)
       }) as User
     } catch {
       rejectWithValue("error while getting info")
+    }
+  }
+)
+
+export const registerUser = createAsyncThunk(
+  "user/register",
+  async (form: RegistrationForm, {rejectWithValue}) => {
+    try {
+      return await new Promise<User>((resolve) => {
+        setTimeout(() => resolve({
+          email: form.email,
+          name: form.name,
+          depthTotal: 5000,
+          oweTotal: 2300,
+          owers: [],
+          myOwers: [],
+        }), 500)
+      }) as User
+    } catch {
+      rejectWithValue("error while registering user")
     }
   }
 )
@@ -50,6 +70,17 @@ export const userSlice = createSlice({
       state.fetching = true
       state.hasData = false
     }).addCase(loginUser.rejected, (state) => {
+      state.user = undefined
+      state.hasData = true
+      state.fetching = false
+    }).addCase(registerUser.fulfilled, (state, action) => {
+      state.user = action.payload
+      state.hasData = true
+      state.fetching = false
+    }).addCase(registerUser.pending, (state) => {
+      state.fetching = true
+      state.hasData = false
+    }).addCase(registerUser.rejected, (state) => {
       state.user = undefined
       state.hasData = true
       state.fetching = false
