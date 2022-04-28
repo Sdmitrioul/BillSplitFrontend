@@ -1,5 +1,6 @@
 import React, {FC, useState} from "react"
 import { useNavigate } from "react-router-dom"
+import {loginUser} from "./user-store"
 
 export const Login: FC = () => {
   const [email, setEmail] = useState<string>("")
@@ -11,8 +12,7 @@ export const Login: FC = () => {
   const navigate = useNavigate()
 
   const apply = () => {
-    // TODO
-    window.alert("Not implemented! Will be done soon")
+    loginUser({email: email, password: password})
     navigate("/user")
   }
 

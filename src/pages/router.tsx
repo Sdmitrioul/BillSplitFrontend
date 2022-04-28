@@ -1,8 +1,8 @@
 import React, {FC} from "react"
 import {BrowserRouter as Routers, Route, Routes} from "react-router-dom"
-import {Login} from "./login/Login"
-import {Home} from "./home/Home"
-import {User} from "./user/User"
+import {Login} from "./login/login"
+import {Home} from "./home/home"
+import {User} from "./user/user"
 
 export const Router: FC = () => {
   return(
