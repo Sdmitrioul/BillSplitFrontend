@@ -1,13 +1,34 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+
+@layer base {
+  * {
+    /* W3C standard just for Firefox */
+    scrollbar-width: thin;
+  }
+
+  html {
+    width: 100%;
+    height: 100%;
+    @apply text-black;
+  }
+
+  html,
+  body,
+  #root {
+    @apply h-full;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  svg {
+    @apply flex-shrink-0;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@tailwind utilities;
+
