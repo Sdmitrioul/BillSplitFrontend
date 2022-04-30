@@ -1,7 +1,8 @@
 import React, {FC} from "react"
 import {useSelector} from "react-redux"
 import {RootState} from "../../app/store"
-import {UserSlice} from "../../app/user-store/user.interfaces";
+import {UserSlice} from "../../app/user-store/user.interfaces"
+import {Link} from "react-router-dom"
 
 export const UserShower: FC = () => {
   const {hasData, fetching, user} = useSelector<RootState, UserSlice>((state) => state.user)
@@ -12,12 +13,12 @@ export const UserShower: FC = () => {
 
       {hasData && (
         <div>
-          <a 
+          <Link
             className="px-2 py-1 rounded-md text-center border-white hover:bg-blue-darkHover"
-            href="/user"
+            to="/user"
           >
             {user?.name}
-          </a>
+          </Link>
         </div>
       )}
 
@@ -30,12 +31,12 @@ export const UserShower: FC = () => {
           >
             Sign In
           </a>
-          <a 
+          <Link
             className="text-center text-white px-2 py-1 rounded-md bg-green-secondary hover:opacity-60"
-            href="/signup"
+            to="/signup"
           >
             Sign Up
-          </a>
+          </Link>
         </div>
       )}
     </>
