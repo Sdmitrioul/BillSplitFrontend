@@ -1,8 +1,8 @@
 import React, {ChangeEvent, FC, useState} from "react"
-import {registerUser} from "./user-store"
 import {useNavigate} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import {AppDispatch} from "../../app/store"
+import {registerUser} from "../../app/user-store/user.requests"
 
 export const SignUp: FC = () => {
   const [email, setEmail] = useState<string>("")

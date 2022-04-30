@@ -1,4 +1,5 @@
 import {IOwer} from "../../components/owe-table/owe-table-interfaces";
+import {BaseStore} from "../base-store";
 
 export interface User {
     email: string
@@ -18,4 +19,8 @@ export interface RegistrationForm {
     email: string
     name: string
     password: string
+}
+
+export interface UserSlice extends BaseStore {
+    user?: User
 }

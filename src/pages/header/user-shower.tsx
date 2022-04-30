@@ -1,10 +1,10 @@
 import React, {FC} from "react"
 import {useSelector} from "react-redux"
 import {RootState} from "../../app/store"
-import {UserStore} from "../login/user-store"
+import {UserSlice} from "../../app/user-store/user.interfaces";
 
 export const UserShower: FC = () => {
-  const {hasData, fetching, user} = useSelector<RootState, UserStore>((state) => state.user)
+  const {hasData, fetching, user} = useSelector<RootState, UserSlice>((state) => state.user)
 
   return(
     <>
