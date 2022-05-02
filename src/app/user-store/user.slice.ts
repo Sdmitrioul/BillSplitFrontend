@@ -5,6 +5,7 @@ import {getUser, loginUser, registerUser} from "./user.requests"
 const initialState: UserSlice = {
   user: undefined,
   fetching: false,
+  hasData: false,
 }
 
 export const userSlice = createSlice({
