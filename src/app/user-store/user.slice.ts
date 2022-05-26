@@ -16,6 +16,11 @@ export const userSlice = createSlice({
       state.user = action.payload
       state.fetching = false
       state.hasData = true
+    },
+    removeUser: (state) => {
+      state.user = undefined
+      state.hasData = false
+      localStorage.removeItem("jwt")
     }
   },
   extraReducers: (builder) => {
@@ -28,7 +33,7 @@ export const userSlice = createSlice({
       state.hasData = false
     }).addCase(loginUser.rejected, (state) => {
       state.user = undefined
-      state.hasData = true
+      state.hasData = false
       state.fetching = false
     }).addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload
@@ -39,7 +44,7 @@ export const userSlice = createSlice({
       state.hasData = false
     }).addCase(registerUser.rejected, (state) => {
       state.user = undefined
-      state.hasData = true
+      state.hasData = false
       state.fetching = false
     }).addCase(getUser.fulfilled, (state, action) => {
       if (!action.payload) {
@@ -61,7 +66,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const { putUser } = userSlice.actions
+export const { putUser, removeUser } = userSlice.actions
 
 export default userSlice.reducer
 

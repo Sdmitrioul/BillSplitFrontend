@@ -1,7 +1,8 @@
-import {IOwer} from "../../components/owe-table/owe-table-interfaces";
-import {BaseStore} from "../base-store";
+import {IOwer} from "../../components/owe-table/owe-table-interfaces"
+import {BaseStore} from "../base-store"
 
 export interface User {
+    id: string
     email: string
     name: string
     depthTotal: number

@@ -1,11 +1,20 @@
 import React, {FC} from "react"
-import {useSelector} from "react-redux"
-import {RootState} from "../../app/store"
+import {useDispatch, useSelector} from "react-redux"
+import {AppDispatch, RootState} from "../../app/store"
 import {UserSlice} from "../../app/user-store/user.interfaces"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import {removeUser} from "../../app/user-store/user.slice"
 
 export const UserShower: FC = () => {
   const {hasData, fetching, user} = useSelector<RootState, UserSlice>((state) => state.user)
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
+
+  const logout = ()  => {
+    dispatch(removeUser())
+    navigate("/home")
+  }
 
   return(
     <>
@@ -19,6 +28,12 @@ export const UserShower: FC = () => {
           >
             {user?.name}
           </Link>
+          <button 
+            onClick={logout} 
+            className="ml-2 text-red-secondary border rounded-md border-red-secondary
+            px-2 hover:text-red-hover hover:border-red-hover">
+            Logout
+          </button>
         </div>
       )}
 

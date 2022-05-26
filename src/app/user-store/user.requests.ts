@@ -1,24 +1,35 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
 import {Credentials, RegistrationForm, User} from "./user.interfaces"
+import {faker} from "@faker-js/faker"
 
 export const loginUser = createAsyncThunk(
   "user/login",
   async (credentials: Credentials, {rejectWithValue}) => {
     try {
+      const gotUser = JSON.parse(localStorage.getItem("users") || "[]")
+        .find((u: any) => u.email === credentials.email)
+      
+      if (!gotUser || gotUser.password !== credentials.password) {
+        return rejectWithValue("Wrong password")
+      }
+
       const user = await new Promise<User>((resolve) => {
         setTimeout(() => resolve({
-          email: credentials.email,
-          name: credentials.email.split("@")[0],
-          depthTotal: 5000,
-          oweTotal: 2300,
-          owers: [],
-          myOwers: [],
+          id: gotUser.id,
+          email: gotUser.email,
+          name: gotUser.name,
+          depthTotal: gotUser.depthTotal,
+          oweTotal: gotUser.oweTotal,
+          owers: gotUser.owers,
+          myOwers: gotUser.myOwers,
         }), 500)
       })
-      localStorage.setItem("jwt", "something")
+
+      localStorage.setItem("jwt", JSON.stringify(user))
+
       return user 
     } catch {
-      rejectWithValue("error while getting info")
+      return rejectWithValue("error while getting info")
     }
   }
 )
@@ -27,17 +38,29 @@ export const registerUser = createAsyncThunk(
   "user/register",
   async (form: RegistrationForm, {rejectWithValue}) => {
     try {
+      const userRaw = {
+        id: faker.database.mongodbObjectId(),
+        email: form.email,
+        name: form.name,
+        depthTotal: 0,
+        oweTotal: 0,
+        owers: [],
+        myOwers: [],
+      }
+      
       const user =  await new Promise<User>((resolve) => {
-        setTimeout(() => resolve({
-          email: form.email,
-          name: form.name,
-          depthTotal: 5000,
-          oweTotal: 2300,
-          owers: [],
-          myOwers: [],
-        }), 500)
+        setTimeout(() => resolve(userRaw), 500)
       })
-      localStorage.setItem("jwt", "something")
+      
+      const users =  JSON.parse(localStorage.getItem("users") || "[]")
+      
+      if (users.some((x: any) => x.email === userRaw.email)) {
+        return rejectWithValue("User  already exist")
+      }
+      
+      localStorage.setItem("jwt", JSON.stringify(userRaw))
+      localStorage.setItem("users", JSON.stringify([...users, {...userRaw, password: form.password}]))
+      
       return user
     } catch {
       rejectWithValue("error while registering user")
@@ -53,17 +76,13 @@ export const getUser = createAsyncThunk(
         localStorage.removeItem("jwt")
         return null
       }
+      
       const user =  await new Promise<User>((resolve) => {
-        setTimeout(() => resolve({
-          email: "dmitri.zd1958@gmail.com",
-          name: "Dmitri Skroba",
-          depthTotal: 5000,
-          oweTotal: 2300,
-          owers: [],
-          myOwers: [],
-        }), 500)
+        setTimeout(() => resolve(JSON.parse(token)), 500)
       })
-      localStorage.setItem("jwt", "something")
+      
+      localStorage.setItem("jwt", token)
+      
       return user
     } catch {
       rejectWithValue("error while registering user")

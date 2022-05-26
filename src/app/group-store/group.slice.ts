@@ -1,21 +1,9 @@
 import {GroupsSlice} from "./group.interfaces"
-import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
+import {addTransaction, createGroup, getGroups} from "./group.requests"
 
 const initialState: GroupsSlice = {
-  groups: [
-    {
-      id: "9344249fkds",
-      name: "Homeless",
-      mates: [],
-      balance: -2342,
-    },
-    {
-      id: "9344249fkdrewrs",
-      name: "Homeless2",
-      mates: [],
-      balance: 2342,
-    }
-  ],
+  groups: [],
   fetching: false,
   hasData: false,
 }
@@ -24,19 +12,48 @@ export const groupsSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
-    createGroup: (state, action: PayloadAction<string>) => {
-      state.groups = [...state.groups, {
-        id: (Math.random() * 1000).toLocaleString(),
-        name: action.payload,
-        mates: [],
-        balance: 0}
-      ]
+    addGroup: (state) => {
+      state.groups = [...state.groups]
       state.hasData = true
       state.fetching = false
     }
-  }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createGroup.fulfilled, (state, action) => {
+      state.groups = action.payload
+      state.hasData = true
+      state.fetching = false
+    }).addCase(createGroup.pending, (state) => {
+      state.fetching = true
+      state.hasData = false
+    }).addCase(createGroup.rejected, (state) => {
+      state.hasData = false
+      state.fetching = false
+    }).addCase(getGroups.fulfilled, (state, action) => {
+      state.groups = action.payload
+      state.hasData = true
+      state.fetching = false
+    }).addCase(getGroups.pending, (state) => {
+      state.fetching = true
+      state.hasData = false
+    }).addCase(getGroups.rejected, (state) => {
+      state.groups = []
+      state.hasData = false
+      state.fetching = false
+    }).addCase(addTransaction.fulfilled, (state, action) => {
+      state.groups = action.payload
+      state.hasData = true
+      state.fetching = false
+    }).addCase(addTransaction.pending, (state) => {
+      state.fetching = true
+      state.hasData = false
+    }).addCase(addTransaction.rejected, (state) => {
+      state.hasData = true
+      state.fetching = false
+    })
+  },
 })
 
-export const { createGroup } = groupsSlice.actions
+export const { addGroup } = groupsSlice.actions
 
 export default groupsSlice.reducer
